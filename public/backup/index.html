@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>GAME</title>
+      <style>
+         * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            overflow: hidden;
+            font-family: 'Courier New', Courier, monospace;
+         }
+
+         canvas {
+            background-color: rgba(0, 0, 0, 0.1);
+         }
+         .title {
+            display: flex;
+         }
+         #gameOver {
+            place-content: center;
+            display: inline;
+            position: fixed;
+            left: 50%;
+            /* grid-template-columns: 1fr 1fr; */
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid hsl(194, 50%, 50%);
+            background: none;
+            color: hsl(194, 50%, 50%);
+            /* text-align: center; */
+            padding: 2rem;
+            border-radius: 1rem;
+            /* visibility: hidden; */
+
+            transition: all 0.5s ease;
+         }
+         #gameOver input {
+            height: 1em;
+            font-size: 1.5em;
+            padding: 1em;
+            background-color: rgba(255, 255, 255, 0.5);
+            border: none;
+            outline: none;
+            border-radius: 0.5em;
+            color: black;
+            font-weight: bolder;
+            grid-column: 1 2;
+         }
+         #gameOver #restart {
+            border: none;
+            outline: none;
+            cursor: pointer;
+            color: black;
+            background-color: hsl(194, 50%, 50%);
+            border: none;
+            /* grid-column: 1; */
+            /* grid-row: 2; */
+            border-radius: 1.5rem;
+            /* font-size: 1.8rem; */
+            /* font-weight: 600; */
+         }
+         #gameOver h1 {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            padding: 0.6rem;
+         }
+
+         #score {
+            color: hsl(194, 50%, 50%);
+            position: fixed;
+            left: 50%;
+            transform: translate(-50%);
+            margin-top: 0.5rem;
+         }
+         #highScore {
+            /* grid-column: 1 2; */
+            /* grid-row: 1; */
+         }
+         body {
+            text-align: center;
+         }
+      </style>
+      <script src="./main.js"></script>
+      <script src="./js/enemy.js"></script>
+      <script src="./js/player.js"></script>
+      <script src="./js/projectile.js"></script>
+   </head>
+   <body>
+      <h1 id="score">SCORE: 0</h1>
+
+      <div id="gameOver">
+         <h2 id="highScore">HIGHSCORE: 0</h2>
+         <input type="text" id="username" />
+         <div class="title">
+            <h1 id="restart">PLAY</h1>
+            <h1 id="name">CIRCl</h1>
+         </div>
+      </div>
+
+      <canvas id="canvas"></canvas>
+
+      <script>
+         init();
+      </script>
+   </body>
+</html>
