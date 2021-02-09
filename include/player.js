@@ -1,7 +1,7 @@
 class Player {
    constructor(username, socket) {
-      this.x = Math.random() * 200;
-      this.y = Math.random() * 200;
+      this.x = 100;
+      this.y = 100;
       this.socket = socket;
       this.radius = 20;
       this.moveUp = false;

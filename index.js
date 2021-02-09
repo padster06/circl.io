@@ -71,10 +71,6 @@ http.listen(process.env.PORT || 4000, () => {
 });
 
 function mainLoop() {
-   server.clients.forEach((client) => {
-      client.send(JSON.stringify(gameObj));
-   });
-
    for (let i = 0; i < gameObj.bullets.length; i++) {
       const e = gameObj.bullets[i];
       e.x += e.xVel;
@@ -103,6 +99,12 @@ function mainLoop() {
    }
    // console.log('loop');
 
+   server.clients.forEach((client) => {
+      var newGameObj = { ...gameObj };
+      client.send(JSON.stringify(newGameObj));
+   });
+
+   // console.log(newGameObj);
    setTimeout(mainLoop, 1000 / 240);
 }
 
