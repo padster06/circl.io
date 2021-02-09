@@ -70,8 +70,8 @@ function init() {
    window.addEventListener('mouseup', (e) => {
       shooting = false;
    });
-
-   socket = new WebSocket('ws://circlio.herokuapp.com/');
+   var host = location.origin.replace(/^http/, 'ws');
+   socket = new WebSocket(host);
    socket.onopen = () => {
       connection = true;
    };
