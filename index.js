@@ -64,7 +64,7 @@ server.on('connection', (socket) => {
    });
 });
 
-app.use(express.static('./public'));
+// app.use(express.static('./public'));
 
 http.listen(process.env.PORT || 4000, () => {
    console.log('server lsitening');
