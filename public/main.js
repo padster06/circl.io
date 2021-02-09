@@ -71,7 +71,7 @@ function init() {
       shooting = false;
    });
 
-   socket = new WebSocket('ws://localhost:4000');
+   socket = new WebSocket('ws://circlio.herokuapp.com/');
    socket.onopen = () => {
       connection = true;
    };
