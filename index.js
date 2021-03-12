@@ -2,13 +2,19 @@ const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
 const WebSoscket = require('ws');
+const server = new WebSoscket.Server({ server: http });
 
-server.broadcast = (data, sender) => {
-   server.clients.forEach(function (client) {
-      if (client !== sender) {
-         client.send(data);
-      }
-   });
+let clients = {};
+let gameState = {
+   players: {
+      p1: {
+         xVel: 1,
+         yVel: 1,
+         x: 20,
+         y: 20,
+         col: 'hsl(53, 50%, 50%)',
+      },
+   },
 };
 
 server.getUniqueID = function () {
@@ -22,10 +28,29 @@ server.getUniqueID = function () {
 
 server.on('connection', (socket) => {
    socket.id = server.getUniqueID();
+   clients[socket.id] = socket;
+   gameState.players[socket.id] = {
+      xVel: 0,
+      yVel: 0,
+      x: 200,
+      y: 200,
+      col: 'hsl(53, 50%, 50%)',
+   };
    console.log('user connetced');
-   socket.on('message', (msg) => {});
+   socket.on('message', (msg) => {
+      const data = JSON.parse(msg);
+      if (data.xVel != null && data.yVel !== null) {
+         gameState.players[socket.id].xVel = data.xVel;
+         gameState.players[socket.id].yVel = data.yVel;
+         console.log(data);
+      } else {
+         console.log('haha');
+      }
+   });
    socket.on('disconnect', function () {
       console.log('disconnected');
+      delete gameObj.players[socket.id];
+      console.log(gameObj);
    });
 });
 
@@ -36,8 +61,20 @@ http.listen(process.env.PORT || 4000, () => {
 });
 
 function mainLoop() {
-   // console.log(newGameObj);
-   setTimeout(mainLoop, 1000 / 240);
+   for (const index in gameState.players) {
+      const player = gameState.players[index];
+      player.x += player.xVel;
+      player.y += player.yVel;
+   }
+   for (const client in clients) {
+      clients[client].send(
+         JSON.stringify({
+            id: client,
+            gameState,
+         })
+      );
+   }
+   setTimeout(mainLoop, 1000 / 60);
 }
 
 mainLoop();
