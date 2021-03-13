@@ -19,6 +19,7 @@ function init() {
    canvas.height = 800;
    display = canvas.getContext('2d');
    display.textAlign = 'center';
+   display.textBaseline = 'middle';
    window.addEventListener('keydown', (e) => {
       switch (e.key) {
          case 'w':
@@ -71,20 +72,21 @@ function init() {
 function start() {
    document.getElementById('gameOver').style.display = 'none';
    username = document.getElementById('user-input').value;
+   console.log(username);
    webSoscket = new WebSocket(location.origin.replace(/^http/, 'ws'));
    webSoscket.onopen = () => {
-      webSoscket.send(JSON.stringify({ username }));
       webSoscket.onmessage = (msg) => {
          const data = JSON.parse(msg.data);
-         // if (data.gameState.players[data.id]) {
-         loop(data);
-         // } else {
-         //    document.getElementById('gameOver').style.display = 'initial';
-         //    display.fillStyle = 'black';
-         //    display.fillRect(0, 0, canvas.width, canvas.height);
-         //    webSoscket.close();
-         // }
+         if (data.gameState.players[data.id]) {
+            loop(data);
+         } else {
+            document.getElementById('gameOver').style.display = 'initial';
+            display.fillStyle = 'black';
+            display.fillRect(0, 0, canvas.width, canvas.height);
+            webSoscket.close();
+         }
       };
+      webSoscket.send(JSON.stringify({ username }));
    };
 }
 
@@ -92,7 +94,7 @@ function loop(data) {
    if (curAngle == null) {
    }
 
-   display.fillStyle = '#000';
+   display.fillStyle = 'rgba(0, 0,0, 0.5)';
    display.fillRect(0, 0, canvas.width, canvas.height);
 
    for (const index in data.gameState.players) {
@@ -111,8 +113,8 @@ function loop(data) {
          display.lineWidth = 3;
          display.fill();
          display.stroke();
-         display.fillColor = player.col;
-         display.fillText(player.x, player.y, player.username);
+         display.fillStyle = player.col;
+         display.fillText(player.username, player.x, player.y);
       }
    }
 

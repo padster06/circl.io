@@ -41,13 +41,16 @@ server.on('connection', (socket) => {
       x: 200,
       mPos: { x: 0, y: 0 },
       y: 200,
+      username: 'loading...',
       shooting: false,
       col: `hsl(${Math.random() * 360}, 50%, 50%)`,
    };
    console.log('user connetced');
    socket.on('message', (msg) => {
       const data = JSON.parse(msg);
-      if (data.xVel != null && data.yVel !== null) {
+      if (data.username) {
+         gameState.players[socket.id].username = data.username;
+      } else if (data.xVel != null && data.yVel !== null) {
          gameState.players[socket.id].xVel = data.xVel;
          gameState.players[socket.id].yVel = data.yVel;
          console.log(data);
@@ -125,6 +128,15 @@ function mainLoop() {
       );
       if (bullet.dist > 800) {
          gameState.bullets.splice(gameState.bullets.indexOf(bullet), 1);
+      }
+
+      for (const index in gameState.players) {
+         const player = gameState.players[index];
+         const dist = Math.hypot(player.x - bullet.x, player.y - bullet.y);
+         if (dist < 30 && bullet.ownerId !== index) {
+            delete gameState.players[index];
+            gameState.bullets.splice(gameState.bullets.indexOf(bullet), 1);
+         }
       }
    }
 
