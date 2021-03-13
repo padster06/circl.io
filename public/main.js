@@ -12,6 +12,7 @@ let speed = 4;
 let x = 100;
 let shooting = { cur: false, local: false };
 let y = 100;
+let score = 0;
 
 function init() {
    canvas = document.getElementById('canvas');
@@ -20,6 +21,7 @@ function init() {
    display = canvas.getContext('2d');
    display.textAlign = 'center';
    display.textBaseline = 'middle';
+
    window.addEventListener('keydown', (e) => {
       switch (e.key) {
          case 'w':
@@ -67,6 +69,10 @@ function init() {
    });
    window.addEventListener('mousedown', () => (shooting.local = true));
    window.addEventListener('mouseup', () => (shooting.local = false));
+
+   document.getElementById('highScore').textContent = `HIGHSCORE: ${
+      localStorage.getItem('high score') || 0
+   }`;
 }
 
 function start() {
@@ -84,6 +90,17 @@ function start() {
             display.fillStyle = 'black';
             display.fillRect(0, 0, canvas.width, canvas.height);
             webSoscket.close();
+            if (!localStorage.getItem('high score')) {
+               localStorage.setItem('high score', score);
+               document.getElementById(
+                  'highScore'
+               ).textContent = `HIGHSCORE: ${score}`;
+            } else if (localStorage.getItem('high score') < score) {
+               localStorage.setItem('high score', score);
+               document.getElementById(
+                  'highScore'
+               ).textContent = `HIGHSCORE: ${score}`;
+            }
          }
       };
       webSoscket.send(JSON.stringify({ username }));
@@ -105,6 +122,12 @@ function loop(data) {
          display.arc(player.x, player.y, 20, Math.PI * 2, 0);
          display.fillStyle = player.col;
          display.fill();
+
+         document.getElementById(
+            'score'
+         ).textContent = `SCORE: ${player.kills}`;
+         score = player.kills;
+         // console.log(player);
       } else {
          display.beginPath();
          display.arc(player.x, player.y, 20, Math.PI * 2, 0);

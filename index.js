@@ -15,6 +15,7 @@ let gameState = {
          mPos: { x: 0, y: 0 },
          shooting: false,
          timeout: 0,
+         kills: 0,
          col: `hsl(${Math.random() * 360}, 50%, 50%)`,
          username: 'bot',
       },
@@ -43,6 +44,7 @@ server.on('connection', (socket) => {
       y: 200,
       username: 'loading...',
       shooting: false,
+      kills: 0,
       col: `hsl(${Math.random() * 360}, 50%, 50%)`,
    };
    console.log('user connetced');
@@ -136,6 +138,8 @@ function mainLoop() {
          if (dist < 30 && bullet.ownerId !== index) {
             delete gameState.players[index];
             gameState.bullets.splice(gameState.bullets.indexOf(bullet), 1);
+            gameState.players[bullet.ownerId].kills++;
+            // console.log(gameState.players[bullet.ownerId]);
          }
       }
    }
