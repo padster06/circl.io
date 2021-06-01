@@ -88,16 +88,13 @@ function mainLoop() {
          player.x = 800;
       }
 
-      if (player.y > 800) {
-         player.y = 0;
-      } else if (player.y < 0) {
-         player.y = 800;
-      }
+      // if (player.y > 800) {
+      //    player.y = 0;
+      // } else if (player.y < 0) {
+      //    player.y = 800;
+      // }
       if (player.shooting && player.timeout <= 0) {
-         const angle = Math.atan2(
-            player.mPos.y - player.y,
-            player.mPos.x - player.x
-         );
+         const angle = Math.atan2(player.mPos.y, player.mPos.x);
          gameState.bullets.push({
             x: player.x,
             y: player.y,

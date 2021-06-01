@@ -58,8 +58,8 @@ function init() {
    });
    canvas.addEventListener('mousemove', (e) => {
       const rect = canvas.getBoundingClientRect();
-      mouseY = e.clientY - rect.top;
-      mouseX = e.clientX - rect.left;
+      mouseY = e.clientY - rect.top - canvas.height / 2;
+      mouseX = e.clientX - rect.left - canvas.width / 2;
 
       if (shooting.cur && webSoscket) {
          const shootBool = shooting.cur;
@@ -110,16 +110,18 @@ function start() {
 function loop(data) {
    if (curAngle == null) {
    }
-
    display.fillStyle = 'rgba(0, 0,0, 0.5)';
    display.fillRect(0, 0, canvas.width, canvas.height);
+
+   let xOff = canvas.width / 2 - data.gameState.players[data.id].x;
+   let yOff = canvas.height / 2 - data.gameState.players[data.id].y;
 
    for (const index in data.gameState.players) {
       const player = data.gameState.players[index];
 
       if (index === data.id) {
          display.beginPath();
-         display.arc(player.x, player.y, 20, Math.PI * 2, 0);
+         display.arc(player.x + xOff, player.y + yOff, 20, Math.PI * 2, 0);
          display.fillStyle = player.col;
          display.fill();
 
@@ -130,21 +132,21 @@ function loop(data) {
          // console.log(player);
       } else {
          display.beginPath();
-         display.arc(player.x, player.y, 20, Math.PI * 2, 0);
+         display.arc(player.x + xOff, player.y + yOff, 20, Math.PI * 2, 0);
          display.strokeStyle = player.col;
          display.fillStyle = 'black';
          display.lineWidth = 3;
          display.fill();
          display.stroke();
          display.fillStyle = player.col;
-         display.fillText(player.username, player.x, player.y);
+         display.fillText(player.username, player.x + xOff, player.y + yOff);
       }
    }
 
    for (const bullet of data.gameState.bullets) {
       display.fillStyle = '#aaa';
       display.beginPath();
-      display.arc(bullet.x, bullet.y, 10, 0, Math.PI * 2);
+      display.arc(bullet.x + xOff, bullet.y + yOff, 10, 0, Math.PI * 2);
       display.fill();
    }
 
