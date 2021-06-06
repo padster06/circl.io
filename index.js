@@ -6,6 +6,9 @@ const server = new WebSoscket.Server({ server: http });
 
 let clients = {};
 let gameState = {
+   sounds: {
+      shooting: false,
+   },
    players: {
       p1: {
          xVel: 1,
@@ -73,7 +76,7 @@ server.on('connection', (socket) => {
 
 app.use(express.static('./public'));
 
-const port = process.env.PORT || 4000
+const port = process.env.PORT || 4000;
 
 http.listen(port, () => {
    console.log(`server listening on http://localhost:${port}`);
@@ -111,6 +114,7 @@ function mainLoop() {
             ownerId: index,
          });
          player.timeout = 20;
+         gameState.sounds.shooting = true;
       } else if (player.shooting && player.timeout > 0) {
          player.timeout--;
       }
@@ -123,6 +127,7 @@ function mainLoop() {
          })
       );
    }
+   gameState.sounds.shooting = false;
    for (const bullet of gameState.bullets) {
       bullet.x += bullet.xVel;
       bullet.y += bullet.yVel;

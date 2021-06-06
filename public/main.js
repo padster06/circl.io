@@ -115,6 +115,9 @@ function loop(data) {
 
    display.fillStyle = 'rgba(0, 0,0, 0.5)';
    display.fillRect(0, 0, canvas.width, canvas.height);
+   if (data.gameState.sounds.shooting) {
+      shotSound.play();
+   }
 
    for (const index in data.gameState.players) {
       const player = data.gameState.players[index];
