@@ -13,8 +13,10 @@ let x = 100;
 let shooting = { cur: false, local: false };
 let y = 100;
 let score = 0;
+let shotSound;
 
 function init() {
+   shotSound = new Audio('audio/shot.wav');
    canvas = document.getElementById('canvas');
    canvas.width = 800;
    canvas.height = 800;

@@ -73,8 +73,10 @@ server.on('connection', (socket) => {
 
 app.use(express.static('./public'));
 
-http.listen(process.env.PORT || 4000, () => {
-   console.log('server lsitening');
+const port = process.env.PORT || 4000
+
+http.listen(port, () => {
+   console.log(`server listening on http://localhost:${port}`);
 });
 
 function mainLoop() {
