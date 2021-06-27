@@ -2,7 +2,7 @@ class Bullet {
    constructor(angle, x, y) {
       this.yVel = Math.sin(angle) * 4;
       this.xVel = Math.cos(angle) * 4;
-      this.radius = 10;
+      this.r = 10;
       this.destroy = false;
       this.x = x;
       this.y = y;

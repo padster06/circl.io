@@ -149,7 +149,7 @@ function loop(data) {
    for (const bullet of data.gameState.bullets) {
       display.fillStyle = '#aaa';
       display.beginPath();
-      display.arc(bullet.x, bullet.y, 10, 0, Math.PI * 2);
+      display.arc(bullet.x, bullet.y, 7, 0, Math.PI * 2);
       display.fill();
    }
 
