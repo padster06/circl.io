@@ -116,6 +116,7 @@ function loop(data) {
    display.fillStyle = 'rgba(0, 0,0, 0.5)';
    display.fillRect(0, 0, canvas.width, canvas.height);
    if (data.gameState.sounds.shooting) {
+      shotSound.pause();
       shotSound.play();
    }
 
